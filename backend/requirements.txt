@@ -1,0 +1,5 @@
+fastapi
+strawberry-graphql[fastapi]
+requests
+selenium
+strawberry-graphql[debug-server]
