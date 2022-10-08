@@ -1,11 +1,16 @@
 import React, { FC } from 'react'
 import { Box, Text } from '@chakra-ui/react'
 
-const Logo: FC = (props: any) => {
+interface Props {
+  w: string
+  color: string[]
+}
+
+const Logo: FC<Props> = (props: Props) => {
   return (
     <Box {...props}>
-      <Text fontSize="lg" fontWeight="bold">
-        Logo
+      <Text fontSize="2xl" fontWeight="bold">
+        Menu App
       </Text>
     </Box>
   )
