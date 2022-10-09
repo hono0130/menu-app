@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 fastapi = "*"
 requests = "*"
-selenium = "*"
+selenium = "==3.14.1"
 strawberry-graphql = {extras = ["debug-server"], version = "*"}
+bs4 = "*"
 
 [dev-packages]
 ipykernel = "*"

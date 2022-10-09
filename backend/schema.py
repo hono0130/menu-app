@@ -1,6 +1,8 @@
 import strawberry
 from strawberry.scalars import JSON
 
+from crawling import crawling
+
 
 @strawberry.type
 class Menu:
@@ -11,6 +13,8 @@ class Menu:
     is_side: bool
     tag: str
     ingreds: JSON
+
+
 
 
 
