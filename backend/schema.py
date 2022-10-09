@@ -9,6 +9,20 @@ class Menu:
     duration: str
     is_side: bool
     tag: str
+
+    @classmethod
+    def marshal(cls, name, link, imageURL, duration, is_side, tag):
+        return cls(
+            name=name, 
+            link=link, 
+            imageURL=imageURL, 
+            duration=duration, 
+            is_side=is_side, 
+            tag=tag, 
+        )
+
+@strawberry.type
+class MenuWithIngreds(Menu):
     ingreds: JSON
 
     @classmethod
@@ -20,8 +34,10 @@ class Menu:
             duration=duration, 
             is_side=is_side, 
             tag=tag, 
-            ingreds=ingreds
-        )
+            ingreds=ingreds,
+        )    
+
+
     
 
 
