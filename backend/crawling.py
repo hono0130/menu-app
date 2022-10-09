@@ -69,10 +69,13 @@ def get_menu_detail(link: str) -> dict[str, dict[str, any]]:
         ingreds_dict = {}
         for i in range(len(ingreds_lst)):
             ingreds_lst[i] = unicodedata.normalize("NFKC", ingreds_lst[i])
+            # 改行かあるか判別
+            # 改行がなければ、name = 全部の文字列 amount = None
             name = ingreds_lst[i].split("\n")[0]
             try:
                 amount = ingreds_lst[i].split("\n")[1]
-            except: pass
+            except: 
+                amount = ""
             if "(" in name:
                 name = name.split("(")[0]
             if "(" in amount:
@@ -125,9 +128,15 @@ async def crawling(num: int):
     gather = asyncio.gather(*[crawling_once(menu_lst, name, link) for name, link in seasonal_ingreds_link_dict.items()])
     loop.run_until_complete(gather)
 
+<<<<<<< HEAD
     return [Menu.marshal(menu["name"], menu["link"], menu["img"], menu["duration"], menu["is_side"], menu["tag"], menu["ingreds"]) for menu in menu_lst]
 
 # loop = asyncio.get_event_loop()
 # result = loop.run_until_complete((crawling(5)))
 # loop.close()
 # print(len(result))
+=======
+    return menu_lst
+
+print(crawling(8))
+>>>>>>> a8321aa (feat: 改行の有無で場合分け)
