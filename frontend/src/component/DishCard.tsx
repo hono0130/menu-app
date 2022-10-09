@@ -8,6 +8,7 @@ import {
   useColorModeValue,
   Grid,
   GridItem,
+  Link,
 } from '@chakra-ui/react'
 
 interface Payload {
@@ -16,9 +17,10 @@ interface Payload {
   duration: number
   tag: string
   isSideDish: boolean
+  link: string
 }
 
-const DishCard = ({ imageURL, name, duration, tag, isSideDish }: Payload) => {
+const DishCard = ({ imageURL, name, duration, tag, isSideDish, link }: Payload) => {
   const [choose, setChoosen] = useState(false)
 
   const handleClick = () => {
@@ -26,14 +28,7 @@ const DishCard = ({ imageURL, name, duration, tag, isSideDish }: Payload) => {
   }
 
   return (
-    <Flex
-      display={'inline'}
-      p={50}
-      w="full"
-      alignItems="center"
-      justifyContent="center"
-      onClick={handleClick}
-    >
+    <Flex display={'inline'} p={50} w="full" alignItems="center" justifyContent="center">
       <Box
         bg={useColorModeValue('white', 'gray.800')}
         maxW="sm"
@@ -43,8 +38,10 @@ const DishCard = ({ imageURL, name, duration, tag, isSideDish }: Payload) => {
         position="relative"
       >
         <Circle size="10px" position="absolute" top={2} right={2} bg="red.200" />
-        <Image src={imageURL} alt={`Picture of ${name}`} roundedTop="lg" />
-        <Box p="6" backgroundColor={choose ? 'pink.100' : 'white'}>
+        <Link href={link}>
+          <Image src={imageURL} alt={`Picture of ${name}`} roundedTop="lg" />
+        </Link>
+        <Box p="6" backgroundColor={choose ? 'pink.100' : 'white'} onClick={handleClick}>
           <Box display={'flex'} alignItems="baseline">
             <Badge
               rounded="full"
