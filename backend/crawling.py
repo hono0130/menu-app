@@ -1,4 +1,5 @@
 from lib2to3.pgen2 import driver
+from msilib import schema
 from time import sleep
 import random
 import re 
@@ -7,7 +8,9 @@ import unicodedata
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
+
+from schema import Menu
+
 
 
 options = Options()
@@ -95,7 +98,7 @@ def get_menu_detail(link: str) -> dict[str, dict[str, any]]:
     finally:
         driver.quit()
 
-def crawling(num: int):
+def crawling(num: int) -> Menu:
     seasonal_ingreds_link_dict = search_seasonal_ingreds(num)
 
     print("done")
