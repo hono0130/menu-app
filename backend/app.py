@@ -13,8 +13,8 @@ from crawling import crawling
 @strawberry.type
 class Query:
     @strawberry.field
-    async def all_menu(self) -> list[Menu]:
-        return await crawling(5)
+    async def all_menu(self, num: int) -> list[Menu]:
+        return await crawling(num)
 
 
 schema = strawberry.Schema(query=Query)

@@ -128,18 +128,12 @@ async def crawling(num: int):
     gather = asyncio.gather(*[crawling_once(menu_lst, name, link) for name, link in seasonal_ingreds_link_dict.items()])
     loop.run_until_complete(gather)
 
-<<<<<<< HEAD
+
     return [Menu.marshal(menu["name"], menu["link"], menu["img"], menu["duration"], menu["is_side"], menu["tag"], menu["ingreds"]) for menu in menu_lst]
 
 # loop = asyncio.get_event_loop()
 # result = loop.run_until_complete((crawling(5)))
 # loop.close()
 # print(len(result))
-=======
-    return menu_lst
 
-print(crawling(8))
-<<<<<<< HEAD
->>>>>>> a8321aa (feat: 改行の有無で場合分け)
-=======
->>>>>>> a8321aa (feat: 改行の有無で場合分け)
+
