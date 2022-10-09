@@ -139,4 +139,7 @@ async def crawling(num: int):
     return menu_lst
 
 print(crawling(8))
+<<<<<<< HEAD
+>>>>>>> a8321aa (feat: 改行の有無で場合分け)
+=======
 >>>>>>> a8321aa (feat: 改行の有無で場合分け)
