@@ -21,6 +21,7 @@ class Menu:
             tag=tag, 
         )
 
+@strawberry.type
 class MenuWithIngreds(Menu):
     ingreds: JSON
 
@@ -33,7 +34,7 @@ class MenuWithIngreds(Menu):
             duration=duration, 
             is_side=is_side, 
             tag=tag, 
-            ingreds=ingreds
+            ingreds=ingreds,
         )    
 
 

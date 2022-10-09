@@ -122,8 +122,6 @@ async def crawling(num: int):
     loop = asyncio.get_event_loop()
 
     menu_lst = []
-    # for name, link in seasonal_ingreds_link_dict.items():
-    #     crawling(menu_lst, name, link)
 
     gather = asyncio.gather(*[crawling_once(menu_lst, name, link) for name, link in seasonal_ingreds_link_dict.items()])
     loop.run_until_complete(gather)
@@ -132,10 +130,21 @@ async def crawling(num: int):
     return menu_lst
 
 
-async def crawling_imgreds(lst: list):
+def _crawling_ingreds_once(lst: list):
     for dic in lst:
         link = dic["link"]
         dic["ingreds"] = get_menu_detail(link)
+    
+async def crawling_ingreds_once(lst: list):
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(None, _crawling_ingreds_once, lst)
+
+async def crawling_ingreds(lst: list):
+    nest_asyncio.apply()
+    loop = asyncio.get_event_loop()
+    gather = asyncio.gather(*[crawling_ingreds_once(lst)])
+    loop.run_until_complete(gather)
+
     return lst
 
 
