@@ -22,6 +22,7 @@ const App: FC = () => {
                 duration: 20,
                 tag: '鶏肉',
                 isSideDish: false,
+                link: 'https://github.com/',
               },
               {
                 imageURL:
@@ -30,6 +31,7 @@ const App: FC = () => {
                 duration: 10,
                 tag: '春雨',
                 isSideDish: true,
+                link: '',
               },
             ],
             Dinner: [
@@ -40,6 +42,7 @@ const App: FC = () => {
                 duration: 15,
                 tag: '鶏肉',
                 isSideDish: true,
+                link: '',
               },
               {
                 imageURL: 'https://cookien.com/wp-content/uploads/2019/02/iri-dofu.jpg',
@@ -47,6 +50,7 @@ const App: FC = () => {
                 duration: 10,
                 tag: '豆腐',
                 isSideDish: true,
+                link: '',
               },
             ],
           },
@@ -60,6 +64,7 @@ const App: FC = () => {
                 duration: 20,
                 tag: '鶏肉',
                 isSideDish: false,
+                link: '',
               },
               {
                 imageURL:
@@ -68,6 +73,7 @@ const App: FC = () => {
                 duration: 15,
                 tag: '鶏肉',
                 isSideDish: true,
+                link: '',
               },
             ],
             Dinner: [
@@ -78,6 +84,7 @@ const App: FC = () => {
                 duration: 20,
                 tag: '鶏肉',
                 isSideDish: false,
+                link: '',
               },
               {
                 imageURL:
@@ -86,6 +93,7 @@ const App: FC = () => {
                 duration: 15,
                 tag: '鶏肉',
                 isSideDish: true,
+                link: '',
               },
             ],
           },
