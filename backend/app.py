@@ -4,11 +4,30 @@ from fastapi import FastAPI
 from strawberry.asgi import GraphQL
 from strawberry.scalars import JSON
 from crawling import crawling
+from starlette.middleware.cors import CORSMiddleware
 
 from schema import Menu, MenuWithIngreds
 from crawling import crawling, crawling_ingreds
 
 all_menu = []
+
+from schema import Menu
+from crawling import crawling
+
+app = FastAPI()
+
+origins = [
+  "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 @strawberry.type
 class Query:
@@ -31,7 +50,6 @@ schema = strawberry.Schema(query=Query)
 
 graphql_app = GraphQL(schema)
 
-app = FastAPI()
 app.add_route("/graphql", graphql_app)
 app.add_websocket_route("/graphql", graphql_app)
 

@@ -99,4 +99,5 @@ const DishTable = ({ rows }: DishTableProps) => {
   )
 }
 
-export default DishTable
+export { DishTable }
+export type { DishTableProps }
