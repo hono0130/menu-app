@@ -65,7 +65,7 @@ const DishTable = ({ rows }: DishTableProps) => {
                           duration={row[LorD][0].duration}
                           tag={row[LorD][0].tag}
                           link={row[LorD][0].link}
-                          isSideDish={false}
+                          isSide={false}
                         ></DishCard>
                         <DishCard
                           imageURL={row[LorD][1].imageURL}
@@ -73,7 +73,7 @@ const DishTable = ({ rows }: DishTableProps) => {
                           duration={row[LorD][1].duration}
                           tag={row[LorD][1].tag}
                           link={row[LorD][0].link}
-                          isSideDish={true}
+                          isSide={true}
                         ></DishCard>
                       </Td>
                     )
