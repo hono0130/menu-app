@@ -5,9 +5,13 @@ from strawberry.scalars import JSON
 @strawberry.type
 class Menu:
     name: str
+    link: str
     imageURL: str
-    ingreds: JSON
+    duration: str
     is_side: bool
-    duration: int
+    tag: str
+    ingreds: JSON
+
+
 
     

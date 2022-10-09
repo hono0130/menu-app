@@ -18,13 +18,17 @@ options.add_argument('--window-size=800,600')
 
     # driver.set_page_load_timeout(10)    # driver.command_executor.set_timeout(10)    
 
-def search_seasonal_ingreds(num: int) -> list[str]:
+def search_seasonal_ingreds(num: int) -> dict[str, str]:
     try:
         driver = webdriver.Chrome('../../chromedriver/chromedriver', options=options)
         driver.get('https://cookien.com/')
         ingreds_elems = driver.find_elements(By.XPATH, '//*[@id="sp_search_kw_list"]/div/ul/li/a')[:num]
         link_lst = [element.get_attribute("href") for element in ingreds_elems ]
-        return link_lst 
+        name_lst = [element.get_attribute("textContent") for element in ingreds_elems ]
+        dic = {}
+        for i in range(len(name_lst)):
+            dic[name_lst[i]] = link_lst[i]
+        return dic
     finally:
         driver.quit()
 
@@ -47,7 +51,9 @@ def select_menu(link: str) -> dict[str, dict[str, str]]:
         side_img = driver.find_element(By.XPATH, f'//*[@id="{side_id}"]//img').get_attribute("src")
         main_name = driver.find_element(By.XPATH, f'//*[@id="{main_id}"]/a/div[1]/h2').text
         side_name = driver.find_element(By.XPATH, f'//*[@id="{side_id}"]/a/div[1]/h2').text
-        menu_dic = {"main": {"name": main_name, "link": main_link, "img": main_img}, "side": {"name": side_name, "link": side_link, "img": side_img}}
+        main_duration = driver.find_element(By.XPATH, f'//*[@id="{main_id}"]/a/div[2]/span[1]/span[2]').get_attribute("textContent")
+        side_duration = driver.find_element(By.XPATH, f'//*[@id="{side_id}"]/a/div[2]/span[1]/span[2]').get_attribute("textContent")
+        menu_dic = {"main": {"name": main_name, "link": main_link, "img": main_img, "duration": main_duration}, "side": {"name": side_name, "link": side_link, "img": side_img, "duration": side_duration}}
         return menu_dic
     finally:
         driver.quit()
@@ -90,23 +96,22 @@ def get_menu_detail(link: str) -> dict[str, dict[str, any]]:
         driver.quit()
 
 def crawling(num: int):
-    seasonal_ingreds_link_lst = search_seasonal_ingreds(num)
+    seasonal_ingreds_link_dict = search_seasonal_ingreds(num)
 
     print("done")
     
     menu_lst = []
-    for link in seasonal_ingreds_link_lst:
-        print(link)
+    for name, link in seasonal_ingreds_link_dict.items():
         dic = select_menu(link)
 
-        dic["main"]["ingreds"] = get_menu_detail(dic["main"]["link"])
         dic["main"]["is_side"] = False
+        dic["main"]["tag"] = name
+        dic["main"]["ingreds"] = get_menu_detail(dic["main"]["link"])
         menu_lst.append(dic["main"])
-        dic["side"]["ingreds"] = get_menu_detail(dic["side"]["link"])
         dic["side"]["is_side"] = True
+        dic["side"]["tag"] = name
+        dic["side"]["ingreds"] = get_menu_detail(dic["side"]["link"])
         menu_lst.append(dic["side"])
-
-        print("done")
     
     print("done")
 
@@ -114,6 +119,6 @@ def crawling(num: int):
 
     return menu_lst
 
-print(crawling(1))
+print(crawling(3))
 
 
