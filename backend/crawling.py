@@ -104,11 +104,11 @@ def _crawling_once(menu_lst: list, name: str, link: str):
 
     dic["main"]["is_side"] = False
     dic["main"]["tag"] = name
-    dic["main"]["ingreds"] = get_menu_detail(dic["main"]["link"])
+    # dic["main"]["ingreds"] = get_menu_detail(dic["main"]["link"])
     menu_lst.append(dic["main"])
     dic["side"]["is_side"] = True
     dic["side"]["tag"] = name
-    dic["side"]["ingreds"] = get_menu_detail(dic["side"]["link"])
+    # dic["side"]["ingreds"] = get_menu_detail(dic["side"]["link"])
     menu_lst.append(dic["side"])
 
 async def crawling_once(menu_lst: list, name: str, link: str):
@@ -129,7 +129,15 @@ async def crawling(num: int):
     loop.run_until_complete(gather)
 
 
-    return [Menu.marshal(menu["name"], menu["link"], menu["img"], menu["duration"], menu["is_side"], menu["tag"], menu["ingreds"]) for menu in menu_lst]
+    return menu_lst
+
+
+async def crawling_imgreds(lst: list):
+    for dic in lst:
+        link = dic["link"]
+        dic["ingreds"] = get_menu_detail(link)
+    return lst
+
 
 # loop = asyncio.get_event_loop()
 # result = loop.run_until_complete((crawling(5)))

@@ -9,6 +9,19 @@ class Menu:
     duration: str
     is_side: bool
     tag: str
+
+    @classmethod
+    def marshal(cls, name, link, imageURL, duration, is_side, tag):
+        return cls(
+            name=name, 
+            link=link, 
+            imageURL=imageURL, 
+            duration=duration, 
+            is_side=is_side, 
+            tag=tag, 
+        )
+
+class MenuWithIngreds(Menu):
     ingreds: JSON
 
     @classmethod
@@ -21,7 +34,9 @@ class Menu:
             is_side=is_side, 
             tag=tag, 
             ingreds=ingreds
-        )
+        )    
+
+
     
 
 

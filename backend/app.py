@@ -8,14 +8,16 @@ from schema import Menu
 from crawling import crawling
 
 
-
+ALL_MENU = []
 
 @strawberry.type
 class Query:
     @strawberry.field
     async def all_menu(self, num: int) -> list[Menu]:
-        return await crawling(num)
+        ALL_MENU = await crawling(num)
+        return [Menu.marshal(menu["name"], menu["link"], menu["img"], menu["duration"], menu["is_side"], menu["tag"]) for menu in ALL_MENU]
 
+print(ALL_MENU)
 
 schema = strawberry.Schema(query=Query)
 
