@@ -1,104 +1,36 @@
 import React, { FC } from 'react'
+import { ApolloClient, InMemoryCache, useQuery, gql } from '@apollo/client'
 import NavBar from './component/Header'
 import './App.css'
-
-import Logo from './component/Logo'
-import DishTable from './component/DishTable'
+import { DishTable } from './component/DishTable'
+import { allMenuQuery } from './graphql/query'
+import client from './graphql/config'
+import { Payload } from './component/DishCard'
+import { DishTableProps } from './component/DishTable'
 
 const App: FC = () => {
+  const { loading, error, data } = useQuery(allMenuQuery)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :</p>
+
+  const data2rows = (data: Payload[]) => {
+    const len = data.length
+    const rows = []
+    for (let i = 0; i < len / 4; i++) {
+      rows.push({
+        id: i + 1,
+        Lunch: [data[i], data[i + 1]],
+        Dinner: [data[i + 2], data[i + 3]],
+      })
+    }
+    return rows
+  }
+
   return (
     <div className="App">
       <NavBar />
       <h1>不要な料理を選んでください</h1>
-      <DishTable
-        rows={[
-          {
-            id: 1,
-            Lunch: [
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2022/10/negidare-karaage-400x267.jpg',
-                name: 'ねぎだれ鶏唐揚げ',
-                duration: 20,
-                tag: '鶏肉',
-                isSideDish: false,
-                link: 'https://github.com/',
-              },
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2022/05/chuka-harusame-salad-400x267.jpg',
-                name: '中華春雨サラダ',
-                duration: 10,
-                tag: '春雨',
-                isSideDish: true,
-                link: '',
-              },
-            ],
-            Dinner: [
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2019/05/chicken-steak-garlcic-shoyu.jpg',
-                name: 'ガーリック醤油チキンステーキ',
-                duration: 15,
-                tag: '鶏肉',
-                isSideDish: true,
-                link: '',
-              },
-              {
-                imageURL: 'https://cookien.com/wp-content/uploads/2019/02/iri-dofu.jpg',
-                name: '炒り豆腐',
-                duration: 10,
-                tag: '豆腐',
-                isSideDish: true,
-                link: '',
-              },
-            ],
-          },
-          {
-            id: 2,
-            Lunch: [
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2022/10/negidare-karaage-400x267.jpg',
-                name: 'ねぎだれ鶏唐揚げ',
-                duration: 20,
-                tag: '鶏肉',
-                isSideDish: false,
-                link: '',
-              },
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2019/05/chicken-steak-garlcic-shoyu.jpg',
-                name: 'ガーリック醤油チキンステーキ',
-                duration: 15,
-                tag: '鶏肉',
-                isSideDish: true,
-                link: '',
-              },
-            ],
-            Dinner: [
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2022/10/negidare-karaage-400x267.jpg',
-                name: 'ねぎだれ鶏唐揚げ',
-                duration: 20,
-                tag: '鶏肉',
-                isSideDish: false,
-                link: '',
-              },
-              {
-                imageURL:
-                  'https://cookien.com/wp-content/uploads/2019/05/chicken-steak-garlcic-shoyu.jpg',
-                name: 'ガーリック醤油チキンステーキ',
-                duration: 15,
-                tag: '鶏肉',
-                isSideDish: true,
-                link: '',
-              },
-            ],
-          },
-        ]}
-      ></DishTable>
+      <DishTable rows={data2rows(data.allMenu)}></DishTable>
     </div>
   )
 }

@@ -16,11 +16,11 @@ interface Payload {
   name: string
   duration: number
   tag: string
-  isSideDish: boolean
+  isSide: boolean
   link: string
 }
 
-const DishCard = ({ imageURL, name, duration, tag, isSideDish, link }: Payload) => {
+const DishCard = ({ imageURL, name, duration, tag, isSide, link }: Payload) => {
   const [choose, setChoosen] = useState(false)
 
   const handleClick = () => {
@@ -43,12 +43,7 @@ const DishCard = ({ imageURL, name, duration, tag, isSideDish, link }: Payload) 
         </Link>
         <Box p="6" backgroundColor={choose ? 'pink.100' : 'white'} onClick={handleClick}>
           <Box display={'flex'} alignItems="baseline">
-            <Badge
-              rounded="full"
-              px="2"
-              fontSize="0.8em"
-              colorScheme={isSideDish ? 'green' : 'red'}
-            >
+            <Badge rounded="full" px="2" fontSize="0.8em" colorScheme={isSide ? 'green' : 'red'}>
               {tag}
             </Badge>
             <Grid
