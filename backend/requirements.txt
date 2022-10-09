@@ -4,3 +4,4 @@ requests
 selenium==3.14.1
 strawberry-graphql[debug-server]
 bs4
+nest_asyncio

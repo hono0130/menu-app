@@ -6,9 +6,8 @@ import asyncio
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
-
-
-
+import nest_asyncio
+from schema import Menu
 
 options = Options()
 options.add_argument("--headless")
@@ -113,8 +112,8 @@ async def crawling_once(menu_lst: list, name: str, link: str):
     loop = asyncio.get_event_loop()
     await loop.run_in_executor(None, _crawling_once, menu_lst, name, link)
 
-def crawling(num: int):
-
+async def crawling(num: int):
+    nest_asyncio.apply()
     seasonal_ingreds_link_dict = search_seasonal_ingreds(num)
     
     loop = asyncio.get_event_loop()
@@ -126,4 +125,9 @@ def crawling(num: int):
     gather = asyncio.gather(*[crawling_once(menu_lst, name, link) for name, link in seasonal_ingreds_link_dict.items()])
     loop.run_until_complete(gather)
 
-    return menu_lst
+    return [Menu.marshal(menu["name"], menu["link"], menu["img"], menu["duration"], menu["is_side"], menu["tag"], menu["ingreds"]) for menu in menu_lst]
+
+# loop = asyncio.get_event_loop()
+# result = loop.run_until_complete((crawling(5)))
+# loop.close()
+# print(len(result))

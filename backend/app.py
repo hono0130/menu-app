@@ -9,11 +9,12 @@ from crawling import crawling
 
 
 
+
 @strawberry.type
 class Query:
     @strawberry.field
-    def all_menu(self) -> list[str]:
-        return crawling(1)
+    async def all_menu(self) -> list[Menu]:
+        return await crawling(5)
 
 
 schema = strawberry.Schema(query=Query)
@@ -23,3 +24,4 @@ graphql_app = GraphQL(schema)
 app = FastAPI()
 app.add_route("/graphql", graphql_app)
 app.add_websocket_route("/graphql", graphql_app)
+
