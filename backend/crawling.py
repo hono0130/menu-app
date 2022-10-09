@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 options = Options()
-# options.add_argument("--headless")
+options.add_argument("--headless")
 # options.add_argument('--proxy-server="direct://"')
 options.add_argument('--window-size=800,600')
 # options.add_argument('--no-sandbox')
@@ -53,7 +53,7 @@ def select_menu(link: str) -> dict[str, dict[str, str]]:
         driver.quit()
 
 
-def get_menu_detail(link: str) -> dict[str, str]:
+def get_menu_detail(link: str) -> dict[str, dict[str, any]]:
     try:
         driver = webdriver.Chrome('../../chromedriver/chromedriver', options=options)
         driver.get(link)
@@ -71,7 +71,7 @@ def get_menu_detail(link: str) -> dict[str, str]:
             if "(" in amount:
                 amount = amount.split("(")[0] 
 
-            number = re.search('[0-9]+\.*[0-9]*', amount)
+            number = re.search('[0-9]+\.*\/*[0-9]*', amount)
 
             if not number:
                 number = None
@@ -97,18 +97,23 @@ def crawling(num: int):
     menu_lst = []
     for link in seasonal_ingreds_link_lst:
         print(link)
-        menu_lst.append(select_menu(link))
+        dic = select_menu(link)
+
+        dic["main"]["ingreds"] = get_menu_detail(dic["main"]["link"])
+        dic["main"]["is_side"] = False
+        menu_lst.append(dic["main"])
+        dic["side"]["ingreds"] = get_menu_detail(dic["side"]["link"])
+        dic["side"]["is_side"] = True
+        menu_lst.append(dic["side"])
+
         print("done")
     
     print("done")
 
-    for dic in menu_lst:
-        print(dic)
-        dic["main"]["ingreds"] = get_menu_detail(dic["main"]["link"])
-        dic["side"]["ingreds"] = get_menu_detail(dic["side"]["link"])
     
+
     return menu_lst
 
-print(crawling(4))
+print(crawling(1))
 
 

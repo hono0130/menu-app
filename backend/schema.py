@@ -6,5 +6,8 @@ from strawberry.scalars import JSON
 class Menu:
     name: str
     imageURL: str
-    ingredients: JSON
+    ingreds: JSON
+    is_side: bool
     duration: int
+
+    
