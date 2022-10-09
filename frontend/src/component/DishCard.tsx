@@ -15,9 +15,10 @@ interface Payload {
   name: string
   duration: number
   tag: string
+  isSideDish: boolean
 }
 
-const DishCard = ({ imageURL, name, duration, tag }: Payload) => {
+const DishCard = ({ imageURL, name, duration, tag, isSideDish }: Payload) => {
   const [choose, setChoosen] = useState(false)
 
   const handleClick = () => {
@@ -25,7 +26,14 @@ const DishCard = ({ imageURL, name, duration, tag }: Payload) => {
   }
 
   return (
-    <Flex p={50} w="full" alignItems="center" justifyContent="center" onClick={handleClick}>
+    <Flex
+      display={'inline'}
+      p={50}
+      w="full"
+      alignItems="center"
+      justifyContent="center"
+      onClick={handleClick}
+    >
       <Box
         bg={useColorModeValue('white', 'gray.800')}
         maxW="sm"
@@ -38,7 +46,12 @@ const DishCard = ({ imageURL, name, duration, tag }: Payload) => {
         <Image src={imageURL} alt={`Picture of ${name}`} roundedTop="lg" />
         <Box p="6" backgroundColor={choose ? 'pink.100' : 'white'}>
           <Box display={'flex'} alignItems="baseline">
-            <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+            <Badge
+              rounded="full"
+              px="2"
+              fontSize="0.8em"
+              colorScheme={isSideDish ? 'green' : 'red'}
+            >
               {tag}
             </Badge>
             <Grid

@@ -1,21 +1,11 @@
 import React from 'react'
-import internal from 'stream'
-import {
-  Box,
-  ChakraProvider,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react'
+import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import DishCard, { Payload } from './DishCard'
 
 interface row {
   id: number
-  dishes: Payload[] // 2つ(for Lunch, for Dinner)
+  Lunch: Payload[]
+  Dinner: Payload[] // 2つ(for Lunch, for Dinner)
 }
 
 interface DishTableProps {
@@ -40,37 +30,48 @@ const DishTable = ({ rows }: DishTableProps) => {
   return (
     <Box
       bg={['primary.500', 'primary.500', 'transparent', 'transparent']}
-      w="90%"
-      borderWidth={'1px'}
+      w="100%"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
     >
       <TableContainer overflowX={'unset'} overflowY={'unset'}>
         <Table variant={'simple'}>
           <Thead position={'sticky'} top={-1} zIndex={'docked'}>
             <Tr bg={'gray.100'}>
               {cols.map((col) => (
-                <Th key={col.name} borderWidth="1px" borderColor="gray.200">
+                <Th key={col.name} borderWidth="3px" borderColor="gray.300">
                   {col.name}
                 </Th>
               ))}
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody alignItems={'center'}>
             {rows.map((row) => (
               <Tr key={row.id}>
                 {cols.map((col) => {
                   if (col.id > 0) {
+                    const LorD = col.id == 1 ? 'Lunch' : 'Dinner'
                     return (
                       <Td
                         key={`${col.id}-${row.id}`}
-                        borderWidth="1px"
-                        borderColor="gray.200"
+                        borderWidth="3px"
+                        borderColor="gray.300"
                         bg="white"
                       >
                         <DishCard
-                          imageURL={row.dishes[col.id - 1].imageURL}
-                          name={row.dishes[col.id - 1].name}
-                          duration={row.dishes[col.id - 1].duration}
-                          tag={row.dishes[col.id - 1].tag}
+                          imageURL={row[LorD][0].imageURL}
+                          name={row[LorD][0].name}
+                          duration={row[LorD][0].duration}
+                          tag={row[LorD][0].tag}
+                          isSideDish={false}
+                        ></DishCard>
+                        <DishCard
+                          imageURL={row[LorD][1].imageURL}
+                          name={row[LorD][1].name}
+                          duration={row[LorD][1].duration}
+                          tag={row[LorD][1].tag}
+                          isSideDish={true}
                         ></DishCard>
                       </Td>
                     )
@@ -78,11 +79,11 @@ const DishTable = ({ rows }: DishTableProps) => {
                     return (
                       <Td
                         key={`${col.id}-${row.id}`}
-                        borderWidth="1px"
-                        borderColor="gray.200"
+                        borderWidth="3px"
+                        borderColor="gray.300"
                         bg="white"
                       >
-                        {col.id + 1}
+                        {row.id}
                       </Td>
                     )
                   }
